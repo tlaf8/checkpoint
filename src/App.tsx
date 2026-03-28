@@ -30,13 +30,24 @@ const App = () => {
         }
     };
 
+    const clearHistory = async () => {
+        if (confirm('Are you sure you want to delete all scans? This cannot be undone.')) {
+            try {
+                await db.scans.clear();
+                console.log('Database cleared successfully!');
+            } catch (error) {
+                console.error('Failed to clear database:', error);
+            }
+        }
+    };
+
     const highlightCode = (detectedCodes: IDetectedBarcode[], ctx: CanvasRenderingContext2D) => {
         detectedCodes.forEach((detectedCode) => {
             const { cornerPoints } = detectedCode;
 
             ctx.save();
 
-            ctx.strokeStyle = '#676767';
+            ctx.strokeStyle = '#0a0';
             ctx.lineWidth = 4;
 
             ctx.scale(-1, 1);
@@ -106,6 +117,7 @@ const App = () => {
                             scanDelay={100}
                         />
                     </div>
+                    <button className='p-3 cursor-pointer bg-gray-800 border-gray-700 text-gray-400 border-2 rounded-xl hover:bg-gray-700 transition duration-200' onClick={clearHistory}>Export</button>
                 </div>
             </div>
         </>

@@ -24,5 +24,4 @@ package-lock.json
 *.sln
 *.sw?
 
-src/assets/*
 src/Debug.tsx

@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
+import { db } from './scripts/db';
 import Debug from './Debug'
 
 const App = () => {
-    const [scanned, setScanned] = useState<Array<string>>([]);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
-    const onScan = (result: Array<IDetectedBarcode>) => {
+    const onScan = async (result: Array<IDetectedBarcode>) => {
         if (result && result.length > 0) {
-            setTimeout(() => {
-                setShowOverlay(false);
-            }, 500);
+            const barcode = result[0];
 
-            setShowOverlay(true);
-            setScanned((prev) => [...prev, result[0].rawValue]);
+            try {
+                setTimeout(() => {
+                    setShowOverlay(false);
+                }, 500);
+
+                setShowOverlay(true);
+
+                await db.scans.add({
+                    rawValue: barcode.rawValue,
+                    timestamp: new Date(),
+                });
+
+                console.table(await db.scans.toArray());
+            } catch(err) {
+                console.error('Failed to save scan:', err);
+            }
         }
     };
 

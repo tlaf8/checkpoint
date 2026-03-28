@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
-import { db } from './scripts/db';
+import { db, type Scan } from './scripts/db';
 import Debug from './Debug'
 
 const App = () => {
@@ -28,6 +28,39 @@ const App = () => {
                 console.error('Failed to save scan:', err);
             }
         }
+    };
+
+    const exportToCSV = async () => {
+        const allScans = await db.scans.toArray();
+
+        if (allScans.length === 0) {
+            alert('No data to export!');
+            return;
+        }
+
+        const headers = ['Entry ID', 'Content', 'Date', 'Time'];
+        const csvRows = allScans.map(scan => {
+            return [
+                scan.id,
+                `"${scan.rawValue.replace(/"/g, '""')}"`, 
+                scan.timestamp.toLocaleDateString(),
+                scan.timestamp.toLocaleTimeString()
+            ].join(',');
+        });
+
+        const csvContent = [headers.join(','), ...csvRows].join('\n');
+
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.setAttribute('href', url);
+        link.setAttribute('download', `scanner_export_${new Date().getTime()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        await clearHistory();
     };
 
     const clearHistory = async () => {
@@ -117,7 +150,7 @@ const App = () => {
                             scanDelay={100}
                         />
                     </div>
-                    <button className='p-3 cursor-pointer bg-gray-800 border-gray-700 text-gray-400 border-2 rounded-xl hover:bg-gray-700 transition duration-200' onClick={clearHistory}>Export</button>
+                    <button className='p-3 cursor-pointer bg-gray-800 border-gray-700 text-gray-400 border-2 rounded-xl hover:bg-gray-700 transition duration-200' onClick={exportToCSV}>Export</button>
                 </div>
             </div>
         </>

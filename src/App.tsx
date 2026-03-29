@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
 import { db, type Scan } from './scripts/db';
-import Debug from './Debug'
+// import Debug from './Debug'
 
 const App = () => {
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
@@ -23,7 +23,7 @@ const App = () => {
                     timestamp: new Date(),
                 });
 
-                console.table(await db.scans.toArray());
+                // console.table(await db.scans.toArray());
             } catch(err) {
                 console.error('Failed to save scan:', err);
             }
@@ -31,10 +31,10 @@ const App = () => {
     };
 
     const exportToCSV = async () => {
-        const allScans = await db.scans.toArray();
+        const allScans: Array<Scan> = await db.scans.toArray();
 
         if (allScans.length === 0) {
-            alert('No data to export!');
+            alert('No data to export.');
             return;
         }
 
@@ -64,7 +64,7 @@ const App = () => {
     };
 
     const clearHistory = async () => {
-        if (confirm('Are you sure you want to delete all scans? This cannot be undone.')) {
+        if (confirm('Do you want to delete all scans? This cannot be undone.')) {
             try {
                 await db.scans.clear();
                 console.log('Database cleared successfully!');
@@ -104,14 +104,14 @@ const App = () => {
         <>
             <div className='bg-gray-800 w-screen h-screen flex items-center justify-center'>
                 <div className='absolute w-[20vw] top-0 left-0 flex flex-col items-center opacity-20'>
-                    <Debug />
+                    {/* <Debug /> */}
                 </div>
                 <div className='bg-gray-900 p-6 rounded-2xl flex flex-col items-center gap-4'>
                     <div className='relative rounded-xl overflow-hidden border-2 border-gray-700'>
                         <AnimatePresence>
                             {showOverlay && (
                                 <motion.div className='absolute inset-0 bg-green-500/32 z-10 flex items-center justify-center'
-                                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, }}>
+                                initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0, }}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"

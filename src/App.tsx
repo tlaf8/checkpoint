@@ -57,8 +57,8 @@ const App = () => {
         <>
             <div className='bg-gray-800 w-screen h-screen flex flex-col items-center justify-center'>
                 <SideMenu showSideMenu={showSideMenu} setShowSideMenu={setShowSideMenu}/>
-                <div className='bg-gray-900 p-6 rounded-2xl flex flex-col items-center gap-4'>
-                    <div className='relative rounded-xl overflow-hidden border-2 border-gray-700'>
+                <div className='bg-gray-900 p-6 rounded-xl flex flex-col items-center justify-center w-[85vmin] h-[85vmin]'>
+                    <div className='relative rounded-xl overflow-hidden border-2 border-gray-700 bg-black'>
                         <AnimatePresence>
                             {showOverlay && (
                                 <motion.div className='absolute inset-0 bg-green-500/32 z-10 flex items-center justify-center'
@@ -87,8 +87,8 @@ const App = () => {
                             }}
                             styles={{
                                 container: {
-                                    width: 'auto',
-                                    height: '50vh',
+                                    width: '100%',
+                                    height: '100%',
                                     transform: 'scaleX(-1)'
                                 },
                                 video: {
@@ -97,6 +97,7 @@ const App = () => {
                                     objectFit: 'cover',
                                 }
                             }}
+                            constraints={{facingMode: 'front'}}
                             paused={showSideMenu}
                             sound={true}
                             scanDelay={100}

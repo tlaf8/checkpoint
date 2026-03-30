@@ -11,7 +11,7 @@ const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
         <>
             {!showSideMenu && (
                 <button
-                    className='fixed top-4 left-4 z-50 p-2 rounded-lg hover:bg-gray-400/20 cursor-pointer'
+                    className='fixed top-4 left-4 z-50 p-2 rounded-xl hover:bg-gray-400/20 cursor-pointer'
                     onClick={() => setShowSideMenu(true)}
                 >
                     <svg
@@ -34,17 +34,22 @@ const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
             <AnimatePresence>
                 {showSideMenu && (
                     <motion.div
-                        key='sidebar-menu'
-                        initial={{ x: '-100%' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '-100%' }}
-                        transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
-                        style={{ willChange: 'transform' }}
-                        className='fixed top-0 left-0 h-screen w-72 bg-gray-700 z-50 shadow-2xl'
+                        style={{ 
+                            willChange: 'transform',
+                            transformOrigin: 'top left' 
+                        }}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        transition={{
+                            duration: 0.4,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
+                        className='fixed top-4 left-4 h-[80vh] w-72 bg-gray-700 z-50 origin-top-left rounded-xl'
                     >
                         <div className='flex justify-end p-4'>
                             <button 
-                                className='p-2 rounded-lg cursor-pointer hover:bg-red-500/35 transition-colors' 
+                                className='p-2 rounded-xl cursor-pointer hover:bg-red-500/35 transition-colors' 
                                 onClick={() => setShowSideMenu(false)}
                             >
                                 <svg

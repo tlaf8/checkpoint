@@ -2,31 +2,27 @@ import { useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
 import { db, type Scan } from './scripts/db';
-// import Debug from './Debug'
+import SideMenu from './SideMenu'
 
 const App = () => {
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
     const onScan = async (result: Array<IDetectedBarcode>) => {
-        if (result && result.length > 0) {
-            const barcode = result[0];
+        if (result && result.length === 0) return;
 
-            try {
-                setTimeout(() => {
-                    setShowOverlay(false);
-                }, 500);
+        try {
+            setTimeout(() => {
+                setShowOverlay(false);
+            }, 500);
 
-                setShowOverlay(true);
+            setShowOverlay(true);
 
-                await db.scans.add({
-                    rawValue: barcode.rawValue,
-                    timestamp: new Date(),
-                });
-
-                // console.table(await db.scans.toArray());
-            } catch(err) {
-                console.error('Failed to save scan:', err);
-            }
+            await db.scans.add({
+                rawValue: result[0].rawValue,
+                timestamp: new Date(),
+            });
+        } catch(err) {
+            console.error('Failed to save scan:', err);
         }
     };
 
@@ -67,7 +63,6 @@ const App = () => {
         if (confirm('Do you want to delete all scans? This cannot be undone.')) {
             try {
                 await db.scans.clear();
-                console.log('Database cleared successfully!');
             } catch (error) {
                 console.error('Failed to clear database:', error);
             }
@@ -102,10 +97,8 @@ const App = () => {
 
     return (
         <>
-            <div className='bg-gray-800 w-screen h-screen flex items-center justify-center'>
-                <div className='absolute w-[20vw] top-0 left-0 flex flex-col items-center opacity-20'>
-                    {/* <Debug /> */}
-                </div>
+            <div className='bg-gray-800 w-screen h-screen flex flex-col items-center justify-center'>
+                <SideMenu />
                 <div className='bg-gray-900 p-6 rounded-2xl flex flex-col items-center gap-4'>
                     <div className='relative rounded-xl overflow-hidden border-2 border-gray-700'>
                         <AnimatePresence>
@@ -138,6 +131,7 @@ const App = () => {
                                 container: {
                                     width: '100%',
                                     height: '100%',
+                                    maxHeight: '50vh'
                                 },
                                 video: {
                                     width: '100%',
@@ -151,6 +145,9 @@ const App = () => {
                         />
                     </div>
                     <button className='p-3 cursor-pointer bg-gray-800 border-gray-700 text-gray-400 border-2 rounded-xl hover:bg-gray-700 transition duration-200' onClick={exportToCSV}>Export</button>
+                </div>
+                <div className='text-gray-700 absolute bottom-1'>
+                   github/tlaf8
                 </div>
             </div>
         </>

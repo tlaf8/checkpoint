@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
-import { db, exportToCSV } from './scripts/db';
+import { db } from './scripts/db';
 import SideMenu from './SideMenu'
 
 const App = () => {
@@ -58,53 +58,50 @@ const App = () => {
             <div className='bg-gray-800 w-screen h-screen flex flex-col items-center justify-center'>
                 <SideMenu showSideMenu={showSideMenu} setShowSideMenu={setShowSideMenu}/>
                 <div className='bg-gray-900 p-6 rounded-2xl flex flex-col items-center gap-4'>
-                    {!showSideMenu &&
-                        <div className='relative rounded-xl overflow-hidden border-2 border-gray-700'>
-                            <AnimatePresence>
-                                {showOverlay && (
-                                    <motion.div className='absolute inset-0 bg-green-500/32 z-10 flex items-center justify-center'
-                                    initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0, }}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="3"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className={'w-32 h-32 text-green-500 transition-transform duration-200 ease-out transform scale-100'}
-                                        >
-                                            <polyline points="20 6 9 17 4 12" />
-                                        </svg>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                            <Scanner
-                                onScan={onScan}
-                                onError={(error) => console.error(error)}
-                                components={{
-                                    tracker: highlightCode,
-                                    finder: false,
-                                }}
-                                styles={{
-                                    container: {
-                                        width: '100%',
-                                        height: '100%',
-                                        maxHeight: '50vh'
-                                    },
-                                    video: {
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        transform: 'scaleX(-1)'
-                                    }
-                                }}
-                                sound={true}
-                                scanDelay={100}
-                            />
-                        </div>
-                    }
-                    <button className='p-3 cursor-pointer bg-gray-800 border-gray-700 text-gray-400 border-2 rounded-xl hover:bg-gray-700 transition duration-200' onClick={exportToCSV}>Export</button>
+                    <div className='relative rounded-xl overflow-hidden border-2 border-gray-700'>
+                        <AnimatePresence>
+                            {showOverlay && (
+                                <motion.div className='absolute inset-0 bg-green-500/32 z-10 flex items-center justify-center'
+                                initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0, }}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className={'w-32 h-32 text-green-500 transition-transform duration-200 ease-out transform scale-100'}
+                                    >
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                        <Scanner
+                            onScan={onScan}
+                            onError={(error) => console.error(error)}
+                            components={{
+                                tracker: highlightCode,
+                                finder: false,
+                            }}
+                            styles={{
+                                container: {
+                                    width: 'auto',
+                                    height: '50vh',
+                                    transform: 'scaleX(-1)'
+                                },
+                                video: {
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                }
+                            }}
+                            paused={showSideMenu}
+                            sound={true}
+                            scanDelay={100}
+                        />
+                    </div>
                 </div>
                 <div className='text-gray-700 absolute bottom-1'>
                    github/tlaf8

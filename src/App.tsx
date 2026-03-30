@@ -55,7 +55,7 @@ const App = () => {
 
     return (
         <>
-            <div className='bg-gray-800 w-screen h-screen flex flex-col items-center justify-center'>
+            <div className='bg-gray-800 w-screen h-svh flex flex-col items-center justify-center'>
                 <SideMenu showSideMenu={showSideMenu} setShowSideMenu={setShowSideMenu}/>
                 <div className='bg-gray-900 p-6 rounded-xl flex flex-col items-center justify-center w-[85vmin] h-[85vmin]'>
                     <div className='relative rounded-xl overflow-hidden border-2 border-gray-700 bg-black'>

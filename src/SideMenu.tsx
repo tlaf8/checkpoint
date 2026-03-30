@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const SideMenu = () => {
-    const [showSidebar, setShowSidebar] = useState(false);
+interface SideMenuProps {
+    showSideMenu: boolean;
+    setShowSideMenu: Dispatch<SetStateAction<boolean>>
+}
 
+const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
     return (
         <>
-            {!showSidebar && (
+            {!showSideMenu && (
                 <button
                     className='fixed top-4 left-4 z-50 p-2 rounded-lg hover:bg-gray-400/20 cursor-pointer'
-                    onClick={() => setShowSidebar(true)}
+                    onClick={() => setShowSideMenu(true)}
                 >
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -29,16 +32,21 @@ const SideMenu = () => {
             )}
 
             <AnimatePresence>
-                {showSidebar && (
+                {showSideMenu && (
                     <motion.div
+                        key='sidebar-menu'
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className='fixed top-0 left-0 h-screen w-72 bg-gray-700 z-50'
+                        transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                        style={{ willChange: 'transform' }}
+                        className='fixed top-0 left-0 h-screen w-72 bg-gray-700 z-50 shadow-2xl'
                     >
                         <div className='flex justify-end p-4'>
-                            <button className='p-2 rounded-lg cursor-pointer hover:bg-red-500/35' onClick={() => setShowSidebar(false)}>
+                            <button 
+                                className='p-2 rounded-lg cursor-pointer hover:bg-red-500/35 transition-colors' 
+                                onClick={() => setShowSideMenu(false)}
+                            >
                                 <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 24 24'

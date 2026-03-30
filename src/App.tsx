@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
+import { Buffer } from 'buffer';
 import { db } from './scripts/db';
-import SideMenu from './SideMenu'
+import SideMenu from './SideMenu';
 
 const App = () => {
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const App = () => {
             setShowOverlay(true);
 
             await db.scans.add({
-                rawValue: result[0].rawValue,
+                rawValue: Buffer.from(result[0].rawValue, 'base64').toString('utf8'),
                 timestamp: new Date(),
             });
         } catch(err) {
@@ -35,9 +36,6 @@ const App = () => {
 
             ctx.strokeStyle = '#0a0';
             ctx.lineWidth = 4;
-
-            ctx.scale(-1, 1);
-            ctx.translate(-ctx.canvas.width, 0);
 
             ctx.beginPath();
             ctx.moveTo(cornerPoints[0].x, cornerPoints[0].y);
@@ -89,7 +87,6 @@ const App = () => {
                                 container: {
                                     width: '100%',
                                     height: '100%',
-                                    transform: 'scaleX(-1)'
                                 },
                                 video: {
                                     width: '100%',

@@ -1,5 +1,6 @@
 import { type Dispatch, type SetStateAction } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { exportToCSV } from './scripts/db'
 
 interface SideMenuProps {
     showSideMenu: boolean;
@@ -66,6 +67,9 @@ const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
                                     <line x1='6' y1='6' x2='18' y2='18' />
                                 </svg>
                             </button>
+                        </div>
+                        <div className='z-100 flex items-center justify-center'>
+                            <button className='bg-gray-600 w-[90%] rounded-lg p-3 hover:bg-gray-600/50 text-gray-400 cursor-pointer' onClick={exportToCSV}>Export to CSV</button>
                         </div>
                     </motion.div>
                 )}

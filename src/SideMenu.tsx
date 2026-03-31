@@ -1,6 +1,6 @@
 import { type Dispatch, type SetStateAction } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { exportToCSV } from './scripts/db'
+import { generateCSV, generatePDF } from './scripts/db'
 
 interface SideMenuProps {
     showSideMenu: boolean;
@@ -46,9 +46,10 @@ const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
                             duration: 0.4,
                             ease: [0.22, 1, 0.36, 1]
                         }}
-                        className='fixed top-4 left-4 h-[80vh] w-72 bg-gray-700 z-50 origin-top-left rounded-xl'
+                        className='fixed top-4 left-4 h-[50vh] w-72 bg-gray-700 z-50 origin-top-left rounded-xl'
                     >
-                        <div className='flex justify-end p-4'>
+                        <div className='flex justify-between items-center p-4'>
+                            <p className='text-2xl text-gray-400'>Export</p>
                             <button 
                                 className='p-2 rounded-xl cursor-pointer hover:bg-red-500/35 transition-colors' 
                                 onClick={() => setShowSideMenu(false)}
@@ -68,8 +69,9 @@ const SideMenu = ({ showSideMenu, setShowSideMenu }: SideMenuProps) => {
                                 </svg>
                             </button>
                         </div>
-                        <div className='z-100 flex items-center justify-center'>
-                            <button className='bg-gray-600 w-[90%] rounded-lg p-3 hover:bg-gray-600/50 text-gray-400 cursor-pointer' onClick={exportToCSV}>Export to CSV</button>
+                        <div className='z-100 flex flex-col gap-2 items-center justify-center'>
+                            <button className='bg-gray-600 w-[90%] rounded-lg p-3 hover:bg-gray-600/70 text-gray-400 cursor-pointer' onClick={generateCSV}>Export to CSV</button>
+                            <button className='bg-gray-600 w-[90%] rounded-lg p-3 hover:bg-gray-600/70 text-gray-400 cursor-pointer' onClick={generatePDF}>Export to PDF</button>
                         </div>
                     </motion.div>
                 )}

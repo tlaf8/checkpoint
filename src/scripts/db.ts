@@ -58,7 +58,7 @@ const generatePDF = async () => {
     const scanData = await db.scans.toArray();
 
     if (scanData.length === 0) {
-        alert("No scans found to export!");
+        alert('No data to export.');
         return;
     }
 

@@ -50,8 +50,8 @@ const App = () => {
                         {showOverlay && (
                             <motion.div className='absolute inset-0 bg-green-500/30 z-10 flex items-center justify-center'
                                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className='w-32 h-32 text-green-500'>
-                                    <polyline points="20 6 9 17 4 12" />
+                                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' className='w-32 h-32 text-green-500'>
+                                    <polyline points='20 6 9 17 4 12' />
                                 </svg>
                             </motion.div>
                         )}

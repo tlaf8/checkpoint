@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { Scanner, type IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { motion, AnimatePresence } from 'motion/react';
 import { Buffer } from 'buffer';
-import { db, type Scan } from './scripts/db';
+import { db } from './scripts/db';
 import SideMenu from './SideMenu';
-
-// jsPDF Imports
-
 
 const App = () => {
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
